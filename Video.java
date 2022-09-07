@@ -30,7 +30,7 @@ public class Video {
 		this.registeredDate = registeredDate ;
 	}
 
-	public int getLateReturnPointPenalty() {
+	public int getPointPenalty() {
 		int pentalty = 0 ;
 		switch ( videoType ) {
 			case VHS: pentalty = 1 ; break ;
@@ -86,5 +86,8 @@ public class Video {
 		else {
 			return DaysRented * 3;
 		}
+	}
+	public boolean isNewReleaseType() {
+		return (getVideoType() == Video.NEW_RELEASE);
 	}
 }

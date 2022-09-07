@@ -76,14 +76,7 @@ public class Rental {
 	// feature envy, duplicate, switch?
 	public int getDaysRentedLimit() {
 		int limit = 0 ;
-		int daysRented ;
-		if (getStatus() == 1) { // returned Video
-			long diff = returnDate.getTime() - rentDate.getTime();
-			daysRented = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
-		} else { // not yet returned
-			long diff = new Date().getTime() - rentDate.getTime();
-			daysRented = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
-		}
+		int daysRented = getDaysRental();
 		if ( daysRented <= 2) return limit ;
 
 		switch ( video.getVideoType() ) {
@@ -94,7 +87,7 @@ public class Rental {
 		return limit ;
 	}
 
-	public int getRentals()
+	public int getDaysRental()
 	{
 		long diff;
 	    if (getStatus() == 1) { // returned Video
@@ -107,8 +100,14 @@ public class Rental {
     
 	public double getRentalCharge()
 	{
-		return getVideo().GetVideoCharge(getRentals());
+		return getVideo().GetVideoCharge(getDaysRental());
 	}
 
+	public int getLateReturnPointPenalty()
+	{
+		if (getDaysRental() > getDaysRentedLimit())
+			return getVideo().getPointPenalty();
+		return 0;
+	}
 
 }
