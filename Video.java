@@ -5,6 +5,11 @@ public class Video {
 
 	// enum
 	private int priceCode ;
+
+	enum EPriceCode
+	{
+		E_REGULAR, E_NEW_RELEASE
+	};
 	public static final int REGULAR = 1 ;
 	public static final int NEW_RELEASE =2 ;
 
@@ -33,9 +38,6 @@ public class Video {
 			case DVD: pentalty = 3 ; break ;
 		}
 		return pentalty ;
-	}
-	public int getPriceCode() {
-		return priceCode;
 	}
 
 	public void setPriceCode(int priceCode) {
@@ -72,5 +74,17 @@ public class Video {
 
 	public void setVideoType(int videoType) {
 		this.videoType = videoType;
+	}
+
+	public double GetVideoCharge(int DaysRented) {
+		if (priceCode == REGULAR){
+			if (DaysRented <= 2)
+				return 2;
+			else
+				return DaysRented * 1.5;
+		}
+		else {
+			return DaysRented * 3;
+		}
 	}
 }
