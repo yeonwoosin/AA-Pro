@@ -65,11 +65,8 @@ public class RentalSystem {
 		videos.add(v1) ;
 		videos.add(v2) ;
 
-		Rental r1 = new Rental(v1) ;
-		Rental r2 = new Rental(v2) ;
-
-		james.addRental(r1) ;
-		james.addRental(r2) ;
+		james.rentVideo(v1);
+		brown.rentVideo(v2);
 	}
 
 	public void listVideos() {
