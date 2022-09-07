@@ -106,6 +106,7 @@ public class Customer {
 			if ( rental.getVideo().getTitle().equals(videoTitle) && rental.getVideo().isRented() ) {
 				rental.returnVideo();
 				rental.getVideo().setRented(false);
+				customerRentals.remove(rental);
 				break ;
 			}
 		}
@@ -123,7 +124,7 @@ public class Customer {
 	public void showRentals() {
 		for (Rental rental : getRentals()) {
 			System.out.print("\tTitle: " + rental.getVideo().getTitle() + " ");
-			System.out.print("\tPrice Code: " + rental.getVideo().getPriceCode());
+			System.out.print("\tPrice Code: " + rental.getVideo().getPriceCode() + "\n");
 		}
 	}
 }
