@@ -19,6 +19,16 @@ public class RentalSystem {
 		}
 		return null;
 	}
+	private Video findVideo(String videoTitle) {
+		Video foundVideo = null ;
+		for ( Video video: videos ) {
+			if ( video.getTitle().equals(videoTitle) && video.isRented() == false ) {
+				foundVideo = video ;
+				return foundVideo;
+			}
+		}
+		return null;
+	}
 	public void clearRentals(String customerName) {
 		Customer foundCustomer = findCustomer(customerName);
 		if ( foundCustomer == null ) {
@@ -37,13 +47,7 @@ public class RentalSystem {
 	}
 
 	public void returnVideo(String customerName, String videoTitle) {
-		Customer foundCustomer = null ;
-		for ( Customer customer: customers ) {
-			if ( customer.getName().equals(customerName)) {
-				foundCustomer = customer ;
-				break ;
-			}
-		}
+		Customer foundCustomer = findCustomer(customerName);
 		if ( foundCustomer == null ) return ;
 
 		List<Rental> customerRentals = foundCustomer.getRentals() ;
@@ -57,14 +61,7 @@ public class RentalSystem {
 	}
 
 	public void showCustomerAndClearRental(String customerName) {
-		Customer foundCustomer = null ;
-		for ( Customer customer: customers ) {
-			if ( customer.getName().equals(customerName)) {
-				foundCustomer = customer ;
-				break ;
-			}
-		}
-
+		Customer foundCustomer = findCustomer(customerName);
 		if ( foundCustomer == null ) {
 			System.out.println("No customer found") ;
 		} else {
@@ -115,15 +112,8 @@ public class RentalSystem {
 	}
 
 	public void getCustomerReport(String customerName) {
-		Customer foundCustomer = null ;
-		for ( Customer customer: customers ) {
-			if ( customer.getName().equals(customerName)) {
-				foundCustomer = customer ;
-				break ;
-			}
-		}
-
-		if ( foundCustomer == null ) {
+		Customer foundCustomer = findCustomer(customerName);
+ 		if ( foundCustomer == null ) {
 			System.out.println("No customer found") ;
 		} else {
 			String result = foundCustomer.getReport() ;
@@ -132,24 +122,10 @@ public class RentalSystem {
 	}
 
 	public void rentVideo(String customerName, String videoTitle) {
-		Customer foundCustomer = null ;
-		for ( Customer customer: customers ) {
-			if ( customer.getName().equals(customerName)) {
-				foundCustomer = customer ;
-				break ;
-			}
-		}
-
+		Customer foundCustomer = findCustomer(customerName);
 		if ( foundCustomer == null ) return ;
 
-		Video foundVideo = null ;
-		for ( Video video: videos ) {
-			if ( video.getTitle().equals(videoTitle) && video.isRented() == false ) {
-				foundVideo = video ;
-				break ;
-			}
-		}
-
+		Video foundVideo = findVideo(videoTitle);
 		if ( foundVideo == null ) return ;
 
 		Rental rental = new Rental(foundVideo) ;
