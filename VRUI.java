@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class VRUI {
+	// Domain X Presentation 분할 - Priority #1
+	//
+
 	private static Scanner scanner = new Scanner(System.in) ;
 	private RentalSystem rentalSystem = new RentalSystem();
 
@@ -81,6 +84,7 @@ public class VRUI {
 		rentalSystem.rentVideo(customerName, videoTitle);
 	}
 
+	// SRP violation
 	public void register(String object) {
 		if ( object.equals("customer") ) {
 			System.out.println("Enter customer name: ") ;
