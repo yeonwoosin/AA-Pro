@@ -2,7 +2,7 @@ import java.util.Date;
 
 public class Rental {
 	private Video video ;
-	private int status ; // 0 for Rented, 1 for Returned
+	private int status ; // 0 for Rented, 1 for Returned <- explicit
 	private Date rentDate ;
 	private Date returnDate ;
 
@@ -46,6 +46,7 @@ public class Rental {
 		this.returnDate = returnDate;
 	}
 
+	// feature envy, duplicate, switch?
 	public int getDaysRentedLimit() {
 		int limit = 0 ;
 		int daysRented ;
