@@ -2,6 +2,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
+/*
+
+Customer
+@ get report : long method SRP, feature envy
+each.getStatus() = duplication 내부에도 duplication (daysRented)
+switch문 정리 , switch에 2= magic number
+Charging, Point 정리
+result+= <- string generation
+*/
+
 public class Customer {
 	private String name;
 
@@ -32,6 +43,12 @@ public class Customer {
 
 	}
 
+	// SRP violation, long method
+	// feature envy - divergent change
+	// getReport를 class로? builder?
+	// duplication
+	// switch, strategy?, magic number?(daysRented)
+
 	public String getReport() {
 		String result = "Customer Report for " + getName() + "\n";
 
@@ -41,17 +58,10 @@ public class Customer {
 		int totalPoint = 0;
 
 		for (Rental each : rentals) {
-			double eachCharge = 0;
 			int eachPoint = 0 ;
-			int daysRented = 0;
 
-			if (each.getStatus() == 1) { // returned Video
-				long diff = each.getReturnDate().getTime() - each.getRentDate().getTime();
-				daysRented = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
-			} else { // not yet returned
-				long diff = new Date().getTime() - each.getRentDate().getTime();
-				daysRented = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
-			}
+			double eachCharge = 0;
+			int daysRented = getDaysRented(each);
 
 			switch (each.getVideo().getPriceCode()) {
 			case Video.REGULAR:
@@ -69,17 +79,19 @@ public class Customer {
 			if ((each.getVideo().getPriceCode() == Video.NEW_RELEASE) )
 				eachPoint++;
 
+			// feature envy
 			if ( daysRented > each.getDaysRentedLimit() )
 				eachPoint -= Math.min(eachPoint, each.getVideo().getLateReturnPointPenalty()) ;
 
 			result += "\t" + each.getVideo().getTitle() + "\tDays rented: " + daysRented + "\tCharge: " + eachCharge
 					+ "\tPoint: " + eachPoint + "\n";
 
+			// change, point 분할
 			totalCharge += eachCharge;
-
 			totalPoint += eachPoint ;
 		}
 
+		// string gen 분리
 		result += "Total charge: " + totalCharge + "\tTotal Point:" + totalPoint + "\n";
 
 
@@ -90,5 +102,19 @@ public class Customer {
 			System.out.println("Congrat! You earned two free coupon");
 		}
 		return result ;
+	}
+
+	private static int getDaysRented(Rental each) {
+		int daysRented = 0;
+
+
+		if (each.getStatus() == 1) { // returned Video
+			long diff = each.getReturnDate().getTime() - each.getRentDate().getTime();
+			daysRented = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
+		} else { // not yet returned
+			long diff = new Date().getTime() - each.getRentDate().getTime();
+			daysRented = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
+		}
+		return daysRented;
 	}
 }

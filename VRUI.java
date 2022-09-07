@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class VRUI {
+	// Domain X Presentation 분할 - Priority #1
+	//
+
 	private static Scanner scanner = new Scanner(System.in) ;
 
 	private List<Customer> customers = new ArrayList<Customer>() ;
@@ -78,6 +81,7 @@ public class VRUI {
 
 		List<Rental> customerRentals = foundCustomer.getRentals() ;
 		for ( Rental rental: customerRentals ) {
+			// chain
 			if ( rental.getVideo().getTitle().equals(videoTitle) && rental.getVideo().isRented() ) {
 				rental.returnVideo();
 				rental.getVideo().setRented(false);
@@ -150,6 +154,7 @@ public class VRUI {
 		System.out.println("Enter customer name: ") ;
 		String customerName = scanner.next() ;
 
+		// duplication
 		Customer foundCustomer = null ;
 		for ( Customer customer: customers ) {
 			if ( customer.getName().equals(customerName)) {
@@ -176,11 +181,13 @@ public class VRUI {
 		Rental rental = new Rental(foundVideo) ;
 		foundVideo.setRented(true);
 
+		// encapsulate
 		List<Rental> customerRentals = foundCustomer.getRentals() ;
 		customerRentals.add(rental);
 		foundCustomer.setRentals(customerRentals);
 	}
 
+	// SRP violation
 	public void register(String object) {
 		if ( object.equals("customer") ) {
 			System.out.println("Enter customer name: ") ;

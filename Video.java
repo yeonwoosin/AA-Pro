@@ -3,10 +3,12 @@ import java.util.Date;
 public class Video {
 	private String title ;
 
+	// enum
 	private int priceCode ;
 	public static final int REGULAR = 1 ;
 	public static final int NEW_RELEASE =2 ;
 
+	// polymorphic solution
 	private int videoType ;
 	public static final int VHS = 1 ;
 	public static final int CD = 2 ;
@@ -15,6 +17,7 @@ public class Video {
 	private Date registeredDate ;
 	private boolean rented ;
 
+	// long param - 관련없는 param
 	public Video(String title, int videoType, int priceCode, Date registeredDate) {
 		this.setTitle(title) ;
 		this.setVideoType(videoType) ;
