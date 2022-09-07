@@ -3,9 +3,11 @@ import java.util.Date;
 public class Video {
 	private String title ;
 
-	private int priceCode ;
-	public static final int REGULAR = 1 ;
-	public static final int NEW_RELEASE =2 ;
+	public enum EpriceCode{
+		REGULAR,
+		NEW_RELEASE
+	};
+	private EpriceCode priceCode;
 
 	// polymorphic solution
 	private int videoType ;
@@ -17,7 +19,7 @@ public class Video {
 	private boolean rented ;
 
 	// long param - 관련없는 param
-	public Video(String title, int videoType, int priceCode, Date registeredDate) {
+	public Video(String title, int videoType, EpriceCode priceCode, Date registeredDate) {
 		this.setTitle(title) ;
 		this.setVideoType(videoType) ;
 		this.setPriceCode(priceCode) ;
@@ -34,10 +36,10 @@ public class Video {
 		return pentalty ;
 	}
 
-	public void setPriceCode(int priceCode) {
+	public void setPriceCode(EpriceCode priceCode) {
 		this.priceCode = priceCode;
 	}
-	public int getPriceCode(){return this.priceCode;}
+	public EpriceCode getPriceCode(){return priceCode;}
 	public String getTitle() {
 		return title;
 	}
@@ -71,7 +73,7 @@ public class Video {
 	}
 
 	public double GetVideoCharge(int DaysRented) {
-		if (priceCode == REGULAR){
+		if (priceCode == Video.EpriceCode.REGULAR){
 			if (DaysRented <= 2)
 				return 2;
 			else
@@ -82,6 +84,6 @@ public class Video {
 		}
 	}
 	public boolean isNewReleaseType() {
-		return (getVideoType() == Video.NEW_RELEASE);
+		return (getPriceCode() == Video.EpriceCode.NEW_RELEASE);
 	}
 }
