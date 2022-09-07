@@ -90,4 +90,40 @@ public class Customer {
 		if (eachPoint < 0) eachPoint = 0;
 		return eachPoint;
 	}
+
+	public void clearRentals() {
+		System.out.println("Name: " + getName() +
+				"\tRentals: " + getRentals().size());
+		showRentals();
+
+		List<Rental> rentals = new ArrayList<Rental>();
+		setRentals(rentals);
+	}
+
+	public void returnVideo(String videoTitle) {
+		List<Rental> customerRentals = getRentals() ;
+		for ( Rental rental: customerRentals ) {
+			if ( rental.getVideo().getTitle().equals(videoTitle) && rental.getVideo().isRented() ) {
+				rental.returnVideo();
+				rental.getVideo().setRented(false);
+				break ;
+			}
+		}
+	}
+
+	public void rentVideo(Video foundVideo) {
+		Rental rental = new Rental(foundVideo) ;
+		foundVideo.setRented(true);
+
+		List<Rental> customerRentals = getRentals() ;
+		customerRentals.add(rental);
+		setRentals(customerRentals);
+	}
+
+	public void showRentals() {
+		for (Rental rental : getRentals()) {
+			System.out.print("\tTitle: " + rental.getVideo().getTitle() + " ");
+			System.out.print("\tPrice Code: " + rental.getVideo().getPriceCode());
+		}
+	}
 }

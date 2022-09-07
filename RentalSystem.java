@@ -33,48 +33,25 @@ public class RentalSystem {
 		Customer foundCustomer = findCustomer(customerName);
 		if ( foundCustomer == null ) {
 			System.out.println("No customer found") ;
-		} else {
-			System.out.println("Name: " + foundCustomer.getName() +
-					"\tRentals: " + foundCustomer.getRentals().size()) ;
-			for ( Rental rental: foundCustomer.getRentals() ) {
-				System.out.print("\tTitle: " + rental.getVideo().getTitle() + " ") ;
-				System.out.print("\tPrice Code: " + rental.getVideo().getPriceCode()) ;
-			}
-
-			List<Rental> rentals = new ArrayList<Rental>() ;
-			foundCustomer.setRentals(rentals);
+			return;
 		}
+		foundCustomer.clearRentals();
 	}
 
 	public void returnVideo(String customerName, String videoTitle) {
 		Customer foundCustomer = findCustomer(customerName);
 		if ( foundCustomer == null ) return ;
 
-		List<Rental> customerRentals = foundCustomer.getRentals() ;
-		for ( Rental rental: customerRentals ) {
-			if ( rental.getVideo().getTitle().equals(videoTitle) && rental.getVideo().isRented() ) {
-				rental.returnVideo();
-				rental.getVideo().setRented(false);
-				break ;
-			}
-		}
+		foundCustomer.returnVideo(videoTitle);
 	}
 
 	public void showCustomerAndClearRental(String customerName) {
 		Customer foundCustomer = findCustomer(customerName);
 		if ( foundCustomer == null ) {
 			System.out.println("No customer found") ;
-		} else {
-			System.out.println("Name: " + foundCustomer.getName() +
-					"\tRentals: " + foundCustomer.getRentals().size()) ;
-			for ( Rental rental: foundCustomer.getRentals() ) {
-				System.out.print("\tTitle: " + rental.getVideo().getTitle() + " ") ;
-				System.out.print("\tPrice Code: " + rental.getVideo().getPriceCode()) ;
-			}
-
-			List<Rental> rentals = new ArrayList<Rental>() ;
-			foundCustomer.setRentals(rentals);
+			return;
 		}
+		foundCustomer.clearRentals();
 	}
 	public void init() {
 		Customer james = new Customer("James") ;
@@ -82,8 +59,9 @@ public class RentalSystem {
 		customers.add(james) ;
 		customers.add(brown) ;
 
-		Video v1 = new Video("v1", Video.CD, Video.EpriceCode.REGULAR, new Date()) ;
-		Video v2 = new Video("v2", Video.DVD, Video.EpriceCode.NEW_RELEASE, new Date()) ;
+		VideoFactory videoFactory = new VideoFactory();
+		Video v1 = videoFactory.create("v1", VideoFactory.CD, Video.EpriceCode.REGULAR, new Date()) ;
+		Video v2 = videoFactory.create("v2", VideoFactory.DVD, Video.EpriceCode.NEW_RELEASE, new Date()) ;
 		videos.add(v1) ;
 		videos.add(v2) ;
 
@@ -104,10 +82,7 @@ public class RentalSystem {
 		for ( Customer customer: customers ) {
 			System.out.println("Name: " + customer.getName() +
 					"\tRentals: " + customer.getRentals().size()) ;
-			for ( Rental rental: customer.getRentals() ) {
-				System.out.print("\tTitle: " + rental.getVideo().getTitle() + " ") ;
-				System.out.print("\tPrice Code: " + rental.getVideo().getPriceCode()) ;
-			}
+			customer.showRentals();
 		}
 	}
 
@@ -128,12 +103,7 @@ public class RentalSystem {
 		Video foundVideo = findVideo(videoTitle);
 		if ( foundVideo == null ) return ;
 
-		Rental rental = new Rental(foundVideo) ;
-		foundVideo.setRented(true);
-
-		List<Rental> customerRentals = foundCustomer.getRentals() ;
-		customerRentals.add(rental);
-		foundCustomer.setRentals(customerRentals);
+		foundCustomer.rentVideo(foundVideo);
 	}
 
 	public void registerCustomer(String name) {
@@ -143,7 +113,8 @@ public class RentalSystem {
 
 	public void registerVideo(String title, int videoType, Video.EpriceCode priceCode) {
 		Date registeredDate = new Date();
-		Video video = new Video(title, videoType, priceCode, registeredDate) ;
+		VideoFactory videoFactory = new VideoFactory();
+		Video video = videoFactory.create(title, videoType, priceCode, registeredDate) ;
 		videos.add(video) ;
 	}
 }

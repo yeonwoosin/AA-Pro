@@ -1,6 +1,6 @@
 import java.util.Date;
 
-public class Video {
+public abstract class Video {
 	private String title ;
 
 	public enum EpriceCode{
@@ -9,32 +9,17 @@ public class Video {
 	};
 	private EpriceCode priceCode;
 
-	// polymorphic solution
-	private int videoType ;
-	public static final int VHS = 1 ;
-	public static final int CD = 2 ;
-	public static final int DVD = 3 ;
-
 	private Date registeredDate ;
 	private boolean rented ;
 
 	// long param - 관련없는 param
-	public Video(String title, int videoType, EpriceCode priceCode, Date registeredDate) {
+	public Video(String title, EpriceCode priceCode, Date registeredDate) {
 		this.setTitle(title) ;
-		this.setVideoType(videoType) ;
-		this.setPriceCode(priceCode) ;
+		this.setPriceCode(priceCode); ;
 		this.registeredDate = registeredDate ;
 	}
 
-	public int getPointPenalty() {
-		int pentalty = 0 ;
-		switch ( videoType ) {
-			case VHS: pentalty = 1 ; break ;
-			case CD: pentalty = 2 ; break ;
-			case DVD: pentalty = 3 ; break ;
-		}
-		return pentalty ;
-	}
+	public abstract int getPointPenalty();
 
 	public void setPriceCode(EpriceCode priceCode) {
 		this.priceCode = priceCode;
@@ -47,6 +32,7 @@ public class Video {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	public abstract int getLimit();
 
 	public boolean isRented() {
 		return rented;
@@ -64,13 +50,8 @@ public class Video {
 		this.registeredDate = registeredDate;
 	}
 
-	public int getVideoType() {
-		return videoType;
-	}
+	public abstract int getVideoType();
 
-	public void setVideoType(int videoType) {
-		this.videoType = videoType;
-	}
 
 	public double GetVideoCharge(int DaysRented) {
 		if (priceCode == Video.EpriceCode.REGULAR){
@@ -87,3 +68,37 @@ public class Video {
 		return (getPriceCode() == Video.EpriceCode.NEW_RELEASE);
 	}
 }
+
+class VideoVHS extends Video {
+	public VideoVHS(String title, EpriceCode priceCode, Date registeredDate) {
+		super(title, priceCode, registeredDate);
+	}
+	public int getPointPenalty() {
+		return 1;
+	}
+	public int getLimit() { return 5;}
+	public int getVideoType() { return 1;};
+}
+
+class VideoCD extends Video {
+	public VideoCD(String title, EpriceCode priceCode, Date registeredDate) {
+		super(title, priceCode, registeredDate);
+	}
+
+	public int getPointPenalty() {
+		return 2;
+	}
+	public int getLimit() { return 3;}
+	public int getVideoType() { return 2;};
+}
+class VideoDVD extends Video {
+	public VideoDVD(String title, EpriceCode priceCode, Date registeredDate) {
+		super(title, priceCode, registeredDate);
+	}
+	public int getPointPenalty() {
+		return 3;
+	}
+	public int getLimit() { return 2;}
+	public int getVideoType() { return 3;};
+}
+
