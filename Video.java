@@ -3,13 +3,7 @@ import java.util.Date;
 public class Video {
 	private String title ;
 
-	// enum
 	private int priceCode ;
-
-	enum EPriceCode
-	{
-		E_REGULAR, E_NEW_RELEASE
-	};
 	public static final int REGULAR = 1 ;
 	public static final int NEW_RELEASE =2 ;
 
@@ -43,7 +37,7 @@ public class Video {
 	public void setPriceCode(int priceCode) {
 		this.priceCode = priceCode;
 	}
-
+	public int getPriceCode(){return this.priceCode;}
 	public String getTitle() {
 		return title;
 	}

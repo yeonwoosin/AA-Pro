@@ -2,13 +2,18 @@ import java.util.Date;
 
 public class Rental {
 	private Video video ;
-	private int status ; // 0 for Rented, 1 for Returned <- explicit
+
+	public enum Estatus{
+		STATUS_RENTED,
+		STATUS_RETURNED
+	} ; // 0 for Rented, 1 for Returned <- explicit
+	private Estatus status;
 	private Date rentDate ;
 	private Date returnDate ;
 
 	public Rental(Video video) {
 		this.video = video ;
-		status = 0 ;
+		status = Estatus.STATUS_RENTED ;
 		rentDate = new Date() ;
 	}
 
@@ -20,12 +25,12 @@ public class Rental {
 		this.video = video;
 	}
 
-	public int getStatus() {
+	public Estatus getStatus() {
 		return status;
 	}
 
 	public void returnVideo() {
-		if ( status == 1 ) {
+		if ( status == Estatus.STATUS_RENTED ) {
 			returnDate = new Date() ;
 		}
 	}
@@ -62,7 +67,7 @@ public class Rental {
 	public int getDaysRental()
 	{
 		long diff;
-	    if (getStatus() == 1) { // returned Video
+	    if (getStatus() == Estatus.STATUS_RETURNED) { // returned Video
 	    	diff = getReturnDate().getTime() - getRentDate().getTime();
 	    } else { // not yet returned
 	        diff = new Date().getTime() - getRentDate().getTime();
