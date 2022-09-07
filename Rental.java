@@ -12,33 +12,6 @@ public class Rental {
 		rentDate = new Date() ;
 	}
 
-	static int getDaysRented() {
-		int daysRented = 0;
-		if (each.getStatus() == 1) { // returned Video
-			long diff = each.getReturnDate().getTime() - each.getRentDate().getTime();
-			daysRented = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
-		} else { // not yet returned
-			long diff = new Date().getTime() - each.getRentDate().getTime();
-			daysRented = (int) (diff / (1000 * 60 * 60 * 24)) + 1;
-		}
-		return daysRented;
-	}
-
-	static double getEachCharge(int daysRented) {
-		int eachCharge = 0;
-		switch (each.getVideo().getPriceCode()) {
-		case Video.REGULAR:
-			eachCharge += 2;
-			if (daysRented > 2)
-				eachCharge += (daysRented - 2) * 1.5;
-			break;
-		case Video.NEW_RELEASE:
-			eachCharge = daysRented * 3;
-			break;
-		}
-		return eachCharge;
-	}
-
 	public Video getVideo() {
 		return video;
 	}
@@ -53,7 +26,6 @@ public class Rental {
 
 	public void returnVideo() {
 		if ( status == 1 ) {
-			this.status = 1;
 			returnDate = new Date() ;
 		}
 	}
