@@ -55,7 +55,7 @@ public class VRUI {
 					"\tRentals: " + foundCustomer.getRentals().size()) ;
 			for ( Rental rental: foundCustomer.getRentals() ) {
 				System.out.print("\tTitle: " + rental.getVideo().getTitle() + " ") ;
-				System.out.print("\tPrice Code: " + rental.getVideo().priceCode) ;
+				System.out.print("\tPrice Code: " + rental.getVideo().getPriceCode()) ;
 			}
 
 			List<Rental> rentals = new ArrayList<Rental>() ;
@@ -96,8 +96,9 @@ public class VRUI {
 		customers.add(james) ;
 		customers.add(brown) ;
 
-		Video v1 = new Video("v1", Video.CD, Video.EpriceCode.REGULAR, new Date()) ;
-		Video v2 = new Video("v2", Video.DVD, Video.EpriceCode.NEW_RELEASE, new Date()) ;
+		VideoFactory videoFactory = new VideoFactory();
+		Video v1 = videoFactory.create("v1", VideoFactory.CD, Video.EpriceCode.REGULAR, new Date()) ;
+		Video v2 = videoFactory.create("v2", VideoFactory.DVD, Video.EpriceCode.NEW_RELEASE, new Date()) ;
 		videos.add(v1) ;
 		videos.add(v2) ;
 
@@ -112,7 +113,7 @@ public class VRUI {
 		System.out.println("List of videos");
 
 		for ( Video video: videos ) {
-			System.out.println("Price code: " + video.priceCode +"\tTitle: " + video.getTitle()) ;
+			System.out.println("Price code: " + video.getPriceCode() +"\tTitle: " + video.getTitle()) ;
 		}
 		System.out.println("End of list");
 	}
@@ -124,7 +125,7 @@ public class VRUI {
 					"\tRentals: " + customer.getRentals().size()) ;
 			for ( Rental rental: customer.getRentals() ) {
 				System.out.print("\tTitle: " + rental.getVideo().getTitle() + " ") ;
-				System.out.print("\tPrice Code: " + rental.getVideo().priceCode) ;
+				System.out.print("\tPrice Code: " + rental.getVideo().getPriceCode()) ;
 			}
 		}
 		System.out.println("End of list");
@@ -212,7 +213,8 @@ public class VRUI {
 				ePriceCode = Video.EpriceCode.NEW_RELEASE;
 
 			Date registeredDate = new Date();
-			Video video = new Video(title, videoType, ePriceCode, registeredDate) ;
+			VideoFactory videoFactory = new VideoFactory();
+			Video video = videoFactory.create(title, videoType, ePriceCode, registeredDate) ;
 			videos.add(video) ;
 		}
 	}
