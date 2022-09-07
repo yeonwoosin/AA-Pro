@@ -60,8 +60,8 @@ public class RentalSystem {
 		customers.add(brown) ;
 
 		VideoFactory videoFactory = new VideoFactory();
-		Video v1 = videoFactory.create("v1", VideoFactory.CD, Video.EpriceCode.REGULAR, new Date()) ;
-		Video v2 = videoFactory.create("v2", VideoFactory.DVD, Video.EpriceCode.NEW_RELEASE, new Date()) ;
+		Video v1 = videoFactory.create("v1", VideoType.CD, EpriceCode.REGULAR, new Date()) ;
+		Video v2 = videoFactory.create("v2", VideoType.DVD, EpriceCode.NEW_RELEASE, new Date()) ;
 		videos.add(v1) ;
 		videos.add(v2) ;
 
@@ -111,10 +111,10 @@ public class RentalSystem {
 			customers.add(customer) ;
 	}
 
-	public void registerVideo(String title, int videoType, Video.EpriceCode priceCode) {
+	public void registerVideo(String title, int videoType, int priceCode) {
 		Date registeredDate = new Date();
 		VideoFactory videoFactory = new VideoFactory();
-		Video video = videoFactory.create(title, videoType, priceCode, registeredDate) ;
+		Video video = videoFactory.create(title, VideoType.trans(videoType), EpriceCode.trans(priceCode), registeredDate) ;
 		videos.add(video) ;
 	}
 }

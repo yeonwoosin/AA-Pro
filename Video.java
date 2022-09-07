@@ -2,11 +2,6 @@ import java.util.Date;
 
 public abstract class Video {
 	private String title ;
-
-	public enum EpriceCode{
-		REGULAR,
-		NEW_RELEASE
-	};
 	private EpriceCode priceCode;
 
 	private Date registeredDate ;
@@ -54,7 +49,7 @@ public abstract class Video {
 
 
 	public double GetVideoCharge(int DaysRented) {
-		if (priceCode == Video.EpriceCode.REGULAR){
+		if (priceCode == EpriceCode.REGULAR){
 			if (DaysRented <= 2)
 				return 2;
 			else
@@ -65,7 +60,7 @@ public abstract class Video {
 		}
 	}
 	public boolean isNewReleaseType() {
-		return (getPriceCode() == Video.EpriceCode.NEW_RELEASE);
+		return (getPriceCode() == EpriceCode.NEW_RELEASE);
 	}
 }
 
